@@ -1,0 +1,10 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <s48_sub2tech>
+            <settings>
+                <active>1</active>
+                <licence_key>4bef5b58-2b6a-4516-820b-6bbb330be272</licence_key>
+            </settings>
+        </s48_sub2tech>
+    </default>
+</config>
