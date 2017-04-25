@@ -38,8 +38,12 @@ class Sub2Library extends Template {
             ? true : false;
     }
 
-    public function getLicenceKey()
+    protected function _toHtml()
     {
-        return $this->sub2Helper->getConfig('licence_key');
+        if (!$this->isEnabled()) {
+            return '';
+        }
+
+        return $this->sub2Helper->getTrackingCode();
     }
 }

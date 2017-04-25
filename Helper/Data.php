@@ -36,4 +36,15 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper {
         return $this->scopeConfig->getValue(self::XML_PATH.$field, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
+    public function getLicenceKey()
+    {
+        return $this->getConfig('licence_key');
+    }
+
+    public function getTrackingCode()
+    {
+        return 'document.write(unescape("%3Cscript src=\'" + document.location.protocol + "//webservices.sub2tech.com/CodeBase/LIVE/Min/sub2.js?LICENSEKEY='. $this->getLicenceKey() . '&trackPage=Y\' async=\'true\' type=\'text/javascript\'%3E%3C/script%3E"));
+    var __s2tQ = __s2tQ || [];'."\n";
+    }
+
 }
