@@ -12,14 +12,17 @@ class SalesQuoteSaveAfterObserver implements ObserverInterface
     protected $checkoutSession;
     protected $cookieManager;
     protected $cookieMetadataFactory;
+    protected $_storeManager;
     const BASKET_XML_COOKIE_NAME = "basketXml";
 
     public function __construct(
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Framework\Stdlib\CookieManagerInterface $cookieManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory
     )
     {
+        $this->_storeManager = $storeManager;
         $this->checkoutSession = $checkoutSession;
         $this->cookieManager = $cookieManager;
         $this->cookieMetadataFactory = $cookieMetadataFactory;
@@ -52,13 +55,22 @@ class SalesQuoteSaveAfterObserver implements ObserverInterface
 
             $xml .= "<Product>";
             $xml .= "<SKU>".$item->getSku()."</SKU>";
+            $xml .= "<Product_ID>".$item->getProduct()->getId()."</Product_ID>";
+            $xml .= "<Product_Name>".$item->getProduct()->getName()."</Product_Name>";
+            $xml .= "<Unit_Price>".$item->getPriceInclTax()."</Unit_Price>";
+            $xml .= "<Currency>".$this->getCurrentCurrencyCode()."</Currency>";
+            $xml .= "<Quantity>".$item->getQty()."</Quantity>";
             $xml .= "</Product>";
-
         }
 
         $xml .= "</Store>";
 
         return $xml;
 
+    }
+
+    public function getCurrentCurrencyCode()
+    {
+        return $this->_storeManager->getStore()->getCurrentCurrencyCode();
     }
 }

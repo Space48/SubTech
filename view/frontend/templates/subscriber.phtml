@@ -1,0 +1,17 @@
+<!-- Sub2Tech Subscriber Tracking -->
+<script>
+    require([
+        'Space48_SubTech/js/cookies'
+    ], function(cookies){
+
+        var email = cookies.getCookie("subscriberEmail");
+
+        if (email !== null) {
+            email = decodeURIComponent(email);
+            __s2tQ.push(['storeData', {'Email': email}]);
+            cookies.delCookie("subscriberEmail");
+        }
+    });
+</script>
+<!-- Sub2Tech Subscriber Tracking -->
+

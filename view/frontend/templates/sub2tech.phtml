@@ -1,66 +1,13 @@
 <!-- Sub2Tech Tracking -->
 <script>
-    <?php //echo $block->getChildHtml() ?>
-
-    /**
-     * Copyright © 2016 Magento. All rights reserved.
-     * See COPYING.txt for license details.
-     */
-    require([
-        "jquery",
-        "prototype",
-        "Magento_Customer/js/customer-data"
-    ], function(jQuery, prototype, customerData){
-
-        console.log("into sub2tech.phtml");
-
-        function getCookie(name) {
-            var cookie = " " + document.cookie;
-            var search = " " + name + "=";
-            var setStr = null;
-            var offset = 0;
-            var end = 0;
-            if (cookie.length > 0) {
-                offset = cookie.indexOf(search);
-                if (offset != -1) {
-                    offset += search.length;
-                    end = cookie.indexOf(";", offset);
-                    if (end == -1) {
-                        end = cookie.length;
-                    }
-                    setStr = decodeURI(cookie.substring(offset, end));
-                }
-            }
-            return(setStr);
-        }
-
-        function delCookie(name) {
-            var date = new Date(0);
-            var cookie = name + "=" + "; path=/; expires=" + date.toUTCString();
-            document.cookie = cookie;
-        }
-
-        document.observe('dom:loaded', function() {
-
-            console.log("HELLO");
-            var email = decodeURI(getCookie("subscriberEmail"));
-            console.log(email);
-            __s2tQ.push(['storeData', {'Email': email}]);
-            delCookie("subscriberEmail");
-
-            /*var subscriberData = customerData.get('subscriber');
-             var email = subscriberData().subscriber_email;
-
-             if (email) {
-             __s2tQ.push(['storeData', {'Email': email}]);
-             console.log(email + ' sent to Sub2Tech');
-             customerData.set('subscriber', []);
-
-             }*/
-        });
-
-    });
-
+    <?php echo $block->getChildHtml() ?>
+</script>
+<script type="text/x-magento-init">
+{
+    "*": {
+        "Sub2Cookies": {}
+    }
+}
 </script>
 <!-- Sub2Tech Tracking -->
 

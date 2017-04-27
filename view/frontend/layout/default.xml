@@ -1,15 +1,15 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
-<body>
-    <referenceContainer name="head.additional">
-        <block class="Magento\Framework\View\Element\Template" name="space48_sub2tech" as="space48_sub2tech" template="Space48_SubTech::sub2tech.phtml" />
-    </referenceContainer>
-    <referenceContainer name="space48_sub2tech">
-        <block class="Space48\SubTech\Block\Sub2Library" name="space48_sub2library" as="space48_sub2library" />
-
-        <!--<block class="Space48\SubTech\Block\TrackSubscriber" name="space48_trackSubscriber" as="space48_trackSubscriber" />-->
-    </referenceContainer>
-    <referenceContainer name="after.body.start">
-        <block class="Magento\Framework\View\Element\Template" name="space48_sub2tech_basketxml" as="space48_sub2tech_basketxml" template="Space48_SubTech::basket.phtml" />
-    </referenceContainer>
-</body>
+    <body>
+        <referenceContainer name="head.additional">
+            <block ifconfig="s48_sub2tech/settings/active" class="Magento\Framework\View\Element\Template" name="space48_sub2tech" template="Space48_SubTech::sub2tech.phtml" />
+        </referenceContainer>
+        <referenceContainer name="space48_sub2tech">
+            <block class="Space48\SubTech\Block\Sub2Library" name="space48_sub2library" />
+        </referenceContainer>
+        <referenceContainer name="after.body.start">
+            <block ifconfig="s48_sub2tech/settings/active" class="Magento\Framework\View\Element\Template" name="space48_sub2tech_subscriber" template="Space48_SubTech::subscriber.phtml" />
+            <block ifconfig="s48_sub2tech/settings/active" class="Magento\Framework\View\Element\Template" name="space48_sub2tech_basketxml"  template="Space48_SubTech::basket.phtml" />
+            <block ifconfig="s48_sub2tech/settings/active" class="Magento\Framework\View\Element\Template" name="space48_sub2tech_customerdata" template="Space48_SubTech::customer.phtml" />
+        </referenceContainer>
+    </body>
 </page>

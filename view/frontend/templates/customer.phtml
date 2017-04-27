@@ -1,6 +1,6 @@
-<!-- Sub2Tech Basket Tracking -->
+<!-- Sub2Tech Customer Tracking -->
 <script>
-    var basketXmlCookieName = '<?= /* @NoEscape */ \Space48\SubTech\Observer\SalesQuoteSaveAfterObserver::BASKET_XML_COOKIE_NAME ?>';
+    var customerDataCookieName = '<?= /* @NoEscape */ \Space48\SubTech\Observer\CustomerLoginSuccessObserver::CUSTOMER_DATA_COOKIE_NAME ?>';
 
     require([
         "jquery",
@@ -8,14 +8,13 @@
         "Magento_Customer/js/customer-data"
     ], function(jQuery, prototype, customerData){
 
-        var basketXml = getCookie(basketXmlCookieName);
+        var customerData = getCookie(customerDataCookieName);
 
-        if (basketXml !== null) {
-
-            basketXml = decodeURIComponent(basketXml.replace(/\+/g, ' '));
-            __s2tQ.push(['sendBasket' , basketXml]);
-            delCookie(basketXmlCookieName);
-
+        if (customerData !== null) {
+            customerData = decodeURIComponent(customerData.replace(/\+/g, ' '));
+            __s2tQ.push(['storeData' , customerData]);
+            console.log(customerData);
+            delCookie(customerDataCookieName);
         }
 
         function getCookie(name) {
@@ -46,5 +45,4 @@
     });
 
 </script>
-<!-- Sub2Tech Basket Tracking -->
-
+<!-- Sub2Tech Customer Tracking -->

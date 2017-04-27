@@ -29,7 +29,7 @@ class TrackSubscriber
                 ->setHttpOnly(false);
 
             $this->cookieManager->setPublicCookie("subscriberEmail",
-                "adam@space48.com",
+                $subscriberData['subscriber_email'],
                 $publicCookieMetadata
             );
 

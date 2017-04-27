@@ -9,4 +9,7 @@
     <event name="sales_quote_save_after">
         <observer name="set_basket_xml_cookie" instance="Space48\SubTech\Observer\SalesQuoteSaveAfterObserver" />
     </event>
+    <event name="customer_customer_authenticated">
+        <observer name="set_customer_data_cookie" instance="Space48\SubTech\Observer\CustomerLoginSuccessObserver" />
+    </event>
 </config>
