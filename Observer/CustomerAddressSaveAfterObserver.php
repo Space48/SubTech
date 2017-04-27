@@ -9,7 +9,7 @@ class CustomerAddressSaveAfterObserver implements ObserverInterface {
     protected $cookieManager;
     protected $cookieMetadataFactory;
     protected $addressHelper;
-    const ADDRESS_DATA_COOKIE_NAME = "addressData";
+    const CUSTOMER_DATA_COOKIE_NAME = "customerData";
 
     public function __construct(
         \Magento\Framework\Stdlib\CookieManagerInterface $cookieManager,
@@ -34,7 +34,7 @@ class CustomerAddressSaveAfterObserver implements ObserverInterface {
             ->setHttpOnly(false);
 
         $this->cookieManager->setPublicCookie(
-            self::ADDRESS_DATA_COOKIE_NAME,
+            self::CUSTOMER_DATA_COOKIE_NAME,
             json_encode($mappedData),
             $publicCookieMetadata
         );
