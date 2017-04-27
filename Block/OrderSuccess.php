@@ -115,7 +115,8 @@ class OrderSuccess extends Template {
             $orderData['County'] = $shippingAddress['region'];
             $orderData['Country'] = $shippingAddress['country_id'];
 
-            $result[] = "__s2tQ.push(['addOrder' ," . $this->jsonHelper->jsonEncode(array_filter($orderData)) . ");\n";
+            $result[] = "__s2tQ.push(['addOrder' ," .
+                $this->jsonHelper->jsonEncode(array_filter($orderData)) . "]);\n";
 
             // Assign store (customer) data to array
 
@@ -131,10 +132,11 @@ class OrderSuccess extends Template {
             $storeData['Landline'] = $shippingAddress['telephone'];
             $storeData['Mobile'] = "";
             $storeData['Email'] = $order['customer_email'];
-            $storeData['Optout1P'] = "1";
-            $storeData['Optout3P'] = "0";
+            $storeData['Optout1P'] = "";
+            $storeData['Optout3P'] = "";
 
-            $result[] = "__s2tQ.push(['storeData' ," . $this->jsonHelper->jsonEncode(array_filter($storeData)) . ");\n";
+            $result[] = "__s2tQ.push(['storeData' ," .
+                $this->jsonHelper->jsonEncode(array_filter($storeData)) . "]);\n";
 
             // Assign order items data to array
 
@@ -154,7 +156,8 @@ class OrderSuccess extends Template {
                 $product['Size'] = '';
                 $product['Color'] = '';
 
-                $result[] = "__s2tQ.push(['addItem' ," . $this->jsonHelper->jsonEncode(array_filter($product)) . ");\n";
+                $result[] = "__s2tQ.push(['addItem' ," .
+                    $this->jsonHelper->jsonEncode(array_filter($product)) . "]);\n";
 
             }
         }

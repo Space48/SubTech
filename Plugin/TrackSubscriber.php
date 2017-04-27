@@ -28,12 +28,14 @@ class TrackSubscriber
                 ->setPath('/')
                 ->setHttpOnly(false);
 
+            $mappedData = [
+                'Email' => $subscriberData['subscriber_email']
+            ];
+
             $this->cookieManager->setPublicCookie("subscriberEmail",
-                $subscriberData['subscriber_email'],
+                json_encode($mappedData),
                 $publicCookieMetadata
             );
-
-            //$this->catalogSession->setData("subscriber_email", $subscriberData['subscriber_email']);
         }
     }
 }

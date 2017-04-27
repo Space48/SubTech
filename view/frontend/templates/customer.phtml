@@ -3,44 +3,15 @@
     var customerDataCookieName = '<?= /* @NoEscape */ \Space48\SubTech\Observer\CustomerLoginSuccessObserver::CUSTOMER_DATA_COOKIE_NAME ?>';
 
     require([
-        "jquery",
-        "prototype",
-        "Magento_Customer/js/customer-data"
-    ], function(jQuery, prototype, customerData){
+        'Space48_SubTech/js/cookies'
+    ], function(cookies){
 
-        var customerData = getCookie(customerDataCookieName);
+        var customerData = cookies.getCookie(customerDataCookieName);
 
         if (customerData !== null) {
             customerData = decodeURIComponent(customerData.replace(/\+/g, ' '));
             __s2tQ.push(['storeData' , customerData]);
-            console.log(customerData);
-            delCookie(customerDataCookieName);
-        }
-
-        function getCookie(name) {
-            var cookie = " " + document.cookie;
-            var search = " " + name + "=";
-            var setStr = null;
-            var offset = 0;
-            var end = 0;
-            if (cookie.length > 0) {
-                offset = cookie.indexOf(search);
-                if (offset != -1) {
-                    offset += search.length;
-                    end = cookie.indexOf(";", offset);
-                    if (end == -1) {
-                        end = cookie.length;
-                    }
-                    setStr = decodeURI(cookie.substring(offset, end));
-                }
-            }
-            return(setStr);
-        }
-
-        function delCookie(name) {
-            var date = new Date(0);
-            var cookie = name + "=" + "; path=/; expires=" + date.toUTCString();
-            document.cookie = cookie;
+            cookies.delCookie(customerDataCookieName);
         }
     });
 

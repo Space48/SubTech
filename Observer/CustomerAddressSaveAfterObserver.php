@@ -1,18 +1,15 @@
 <?php
-/**
- * Copyright © 2016 Magento. All rights reserved.
- * See COPYING.txt for license details.
- */
+
 namespace Space48\SubTech\Observer;
 
 use Magento\Framework\Event\ObserverInterface;
 
-class CustomerLoginSuccessObserver implements ObserverInterface
-{
+class CustomerAddressSaveAfterObserver implements ObserverInterface {
+
     protected $cookieManager;
     protected $cookieMetadataFactory;
     protected $addressHelper;
-    const CUSTOMER_DATA_COOKIE_NAME = "customerData";
+    const ADDRESS_DATA_COOKIE_NAME = "addressData";
 
     public function __construct(
         \Magento\Framework\Stdlib\CookieManagerInterface $cookieManager,
@@ -24,10 +21,11 @@ class CustomerLoginSuccessObserver implements ObserverInterface
         $this->addressHelper = $addressHelper;
     }
 
-    public function execute(\Magento\Framework\Event\Observer $observer)
-    {
-        $customer = $observer->getEvent()->getData('model');
-        $mergedData = array_merge($customer->getData(), $this->addressHelper->getCustomerAddressData($customer));
+    public function execute(\Magento\Framework\Event\Observer $observer) {
+
+        $customerAddress = $observer->getCustomerAddress();
+        $customer = $customerAddress->getCustomer();
+        $mergedData = array_merge($customer->getData(), $observer->getCustomerAddress()->getData());
         $mappedData = $this->addressHelper->mapCustomerData($mergedData);
 
         $publicCookieMetadata = $this->cookieMetadataFactory->createPublicCookieMetadata()
@@ -36,11 +34,12 @@ class CustomerLoginSuccessObserver implements ObserverInterface
             ->setHttpOnly(false);
 
         $this->cookieManager->setPublicCookie(
-            self::CUSTOMER_DATA_COOKIE_NAME,
+            self::ADDRESS_DATA_COOKIE_NAME,
             json_encode($mappedData),
             $publicCookieMetadata
         );
 
         return $this;
     }
+
 }

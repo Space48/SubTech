@@ -12,4 +12,7 @@
     <event name="customer_customer_authenticated">
         <observer name="set_customer_data_cookie" instance="Space48\SubTech\Observer\CustomerLoginSuccessObserver" />
     </event>
+    <event name="customer_address_save_after">
+        <observer name="set_customer_data_address_cookie" instance="Space48\SubTech\Observer\CustomerAddressSaveAfterObserver" />
+    </event>
 </config>

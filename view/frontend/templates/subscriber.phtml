@@ -7,11 +7,10 @@
         var email = cookies.getCookie("subscriberEmail");
 
         if (email !== null) {
-            email = decodeURIComponent(email);
-            __s2tQ.push(['storeData', {'Email': email}]);
+            email = decodeURIComponent(email.replace(/\+/g, ' '));
+            __s2tQ.push(['storeData', email]);
             cookies.delCookie("subscriberEmail");
         }
     });
 </script>
 <!-- Sub2Tech Subscriber Tracking -->
-

@@ -3,48 +3,19 @@
     var basketXmlCookieName = '<?= /* @NoEscape */ \Space48\SubTech\Observer\SalesQuoteSaveAfterObserver::BASKET_XML_COOKIE_NAME ?>';
 
     require([
-        "jquery",
-        "prototype",
-        "Magento_Customer/js/customer-data"
-    ], function(jQuery, prototype, customerData){
+        'Space48_SubTech/js/cookies'
+    ], function(cookies){
 
-        var basketXml = getCookie(basketXmlCookieName);
+        var basketXml = cookies.getCookie(basketXmlCookieName);
 
         if (basketXml !== null) {
 
             basketXml = decodeURIComponent(basketXml.replace(/\+/g, ' '));
             __s2tQ.push(['sendBasket' , basketXml]);
-            delCookie(basketXmlCookieName);
+            cookies.delCookie(basketXmlCookieName);
 
-        }
-
-        function getCookie(name) {
-            var cookie = " " + document.cookie;
-            var search = " " + name + "=";
-            var setStr = null;
-            var offset = 0;
-            var end = 0;
-            if (cookie.length > 0) {
-                offset = cookie.indexOf(search);
-                if (offset != -1) {
-                    offset += search.length;
-                    end = cookie.indexOf(";", offset);
-                    if (end == -1) {
-                        end = cookie.length;
-                    }
-                    setStr = decodeURI(cookie.substring(offset, end));
-                }
-            }
-            return(setStr);
-        }
-
-        function delCookie(name) {
-            var date = new Date(0);
-            var cookie = name + "=" + "; path=/; expires=" + date.toUTCString();
-            document.cookie = cookie;
         }
     });
 
 </script>
 <!-- Sub2Tech Basket Tracking -->
-

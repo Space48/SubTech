@@ -1,0 +1,19 @@
+<!-- Sub2Tech Address Tracking -->
+<script>
+    var addressDataCookieName = '<?= /* @NoEscape */ \Space48\SubTech\Observer\CustomerAddressSaveAfterObserver::ADDRESS_DATA_COOKIE_NAME ?>';
+
+    require([
+        'Space48_SubTech/js/cookies'
+    ], function(cookies){
+
+        var addressData = cookies.getCookie(addressDataCookieName);
+
+        if (addressData !== null) {
+            addressData = decodeURIComponent(addressData.replace(/\+/g, ' '));
+            __s2tQ.push(['storeData' , addressData]);
+            cookies.delCookie(customerDataCookieName);
+        }
+    });
+
+</script>
+<!-- Sub2Tech Address Tracking -->

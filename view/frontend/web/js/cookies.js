@@ -4,10 +4,6 @@ define([],
 
         return {
 
-            testFunc : function() {
-                console.log("TESTING");
-            },
-
             getCookie : function(name){
                 var cookie = " " + document.cookie;
                 var search = " " + name + "=";
