@@ -28,6 +28,11 @@ define([],
                 var date = new Date(0);
                 var cookie = name + "=" + "; path=/; expires=" + date.toUTCString();
                 document.cookie = cookie;
+            },
+
+            parseJson : function (json) {
+                var json = decodeURIComponent(json.replace(/\+/g, ' '));
+                return JSON.parse(json);
             }
         }
     });

@@ -9,7 +9,7 @@
         var customerData = cookies.getCookie(customerDataCookieName);
 
         if (customerData !== null) {
-            customerData = decodeURIComponent(customerData.replace(/\+/g, ' '));
+            customerData = cookies.parseJson(customerData);
             __s2tQ.push(['storeData' , customerData]);
             cookies.delCookie(customerDataCookieName);
         }

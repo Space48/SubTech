@@ -106,7 +106,7 @@ class OrderSuccess extends Template {
 
             $orderData = [];
             $orderData['OrderID'] = $order['increment_id'];
-            $orderData['Affiliation'] = "";
+            $orderData['Affiliation'] = $order['coupon_rule_name'];
             $orderData['Total'] = $order['grand_total'];
             $orderData['Tax'] = $order['tax_amount'];
             $orderData['Shipping'] = $order['base_shipping_amount'];

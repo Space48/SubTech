@@ -12,16 +12,19 @@ class CustomerLoginSuccessObserver implements ObserverInterface
     protected $cookieManager;
     protected $cookieMetadataFactory;
     protected $addressHelper;
+    protected $jsonHelper;
     const CUSTOMER_DATA_COOKIE_NAME = "customerData";
 
     public function __construct(
         \Magento\Framework\Stdlib\CookieManagerInterface $cookieManager,
         \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory,
-        \Space48\SubTech\Helper\Address $addressHelper
+        \Space48\SubTech\Helper\Address $addressHelper,
+        \Magento\Framework\Json\Helper\Data $jsonHelper
     ) {
         $this->cookieManager = $cookieManager;
         $this->cookieMetadataFactory = $cookieMetadataFactory;
         $this->addressHelper = $addressHelper;
+        $this->jsonHelper = $jsonHelper;
     }
 
     public function execute(\Magento\Framework\Event\Observer $observer)
@@ -37,7 +40,7 @@ class CustomerLoginSuccessObserver implements ObserverInterface
 
         $this->cookieManager->setPublicCookie(
             self::CUSTOMER_DATA_COOKIE_NAME,
-            json_encode($mappedData),
+            $this->jsonHelper->jsonEncode($mappedData),
             $publicCookieMetadata
         );
 

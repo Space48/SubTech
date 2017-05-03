@@ -7,7 +7,7 @@
         var email = cookies.getCookie("subscriberEmail");
 
         if (email !== null) {
-            email = decodeURIComponent(email.replace(/\+/g, ' '));
+            email = cookies.parseJson(email);
             __s2tQ.push(['storeData', email]);
             cookies.delCookie("subscriberEmail");
         }

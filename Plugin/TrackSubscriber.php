@@ -6,15 +6,18 @@ class TrackSubscriber
     protected $catalogSession;
     protected $cookieManager;
     protected $cookieMetadataFactory;
+    protected $jsonHelper;
 
     public function __construct(
         \Magento\Catalog\Model\Session $catalogSession,
         \Magento\Framework\Stdlib\CookieManagerInterface $cookieManager,
-        \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory
+        \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory,
+        \Magento\Framework\Json\Helper\Data $jsonHelper
     ) {
         $this->catalogSession = $catalogSession;
         $this->cookieManager = $cookieManager;
         $this->cookieMetadataFactory = $cookieMetadataFactory;
+        $this->jsonHelper = $jsonHelper;
     }
 
     public function afterSubscribe(\Magento\Newsletter\Model\Subscriber $subscriber)
@@ -33,7 +36,7 @@ class TrackSubscriber
             ];
 
             $this->cookieManager->setPublicCookie("subscriberEmail",
-                json_encode($mappedData),
+                $this->jsonHelper->jsonEncode($mappedData),
                 $publicCookieMetadata
             );
         }

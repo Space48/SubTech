@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="page.wrapper">
+            <block ifconfig="s48_sub2tech/settings/active" class="Magento\Framework\View\Element\Template" name="space48_sub2tech_banner" template="Space48_SubTech::banner.phtml" before="main.content" />
+        </referenceContainer>
+    </body>
+</page>
