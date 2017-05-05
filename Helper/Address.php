@@ -50,7 +50,7 @@ class Address extends \Magento\Framework\App\Helper\AbstractHelper {
         $mappedData['Postcode'] = isset($data['postcode']) ? $data['postcode'] : "";
         $mappedData['Landline'] = isset($data['telephone']) ? $data['telephone'] : "";
         $mappedData['Mobile'] = isset($data['mobile']) ? $data['mobile'] : "";
-        $mappedData['Optout1P'] = "";
+        $mappedData['Optout1P'] = isset($data['is_subscribed']) && $data['is_subscribed'] == 1 ? "1" : "0";
         $mappedData['Optout3P'] = "";
 
         return array_filter($mappedData);

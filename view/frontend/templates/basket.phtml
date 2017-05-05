@@ -3,16 +3,16 @@
     var basketXmlCookieName = '<?= /* @NoEscape */ \Space48\SubTech\Observer\SalesQuoteSaveAfterObserver::BASKET_XML_COOKIE_NAME ?>';
 
     require([
-        'Space48_SubTech/js/cookies'
-    ], function(cookies){
+        'Space48_GtmDataLayer/js/tracking'
+    ], function(tracking){
 
-        var basketXml = cookies.getCookie(basketXmlCookieName);
+        var basketXml = tracking.getCookie(basketXmlCookieName);
 
         if (basketXml !== null) {
 
             basketXml = decodeURIComponent(basketXml.replace(/\+/g, ' '));
             __s2tQ.push(['sendBasket' , basketXml]);
-            cookies.delCookie(basketXmlCookieName);
+            tracking.delCookie(basketXmlCookieName);
         }
     });
 

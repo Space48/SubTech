@@ -1,15 +1,15 @@
 <!-- Sub2Tech Subscriber Tracking -->
 <script>
     require([
-        'Space48_SubTech/js/cookies'
-    ], function(cookies){
+        'Space48_GtmDataLayer/js/tracking'
+    ], function(tracking){
 
-        var email = cookies.getCookie("subscriberEmail");
+        var email = tracking.getCookie("subscriberEmail");
 
         if (email !== null) {
-            email = cookies.parseJson(email);
+            email = tracking.parseJson(email);
             __s2tQ.push(['storeData', email]);
-            cookies.delCookie("subscriberEmail");
+            tracking.delCookie("subscriberEmail");
         }
     });
 </script>

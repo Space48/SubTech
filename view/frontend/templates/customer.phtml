@@ -3,15 +3,15 @@
     var customerDataCookieName = '<?= /* @NoEscape */ \Space48\SubTech\Observer\CustomerLoginSuccessObserver::CUSTOMER_DATA_COOKIE_NAME ?>';
 
     require([
-        'Space48_SubTech/js/cookies'
-    ], function(cookies){
+        'Space48_GtmDataLayer/js/tracking'
+    ], function(tracking){
 
-        var customerData = cookies.getCookie(customerDataCookieName);
+        var customerData = tracking.getCookie(customerDataCookieName);
 
         if (customerData !== null) {
-            customerData = cookies.parseJson(customerData);
+            customerData = tracking.parseJson(customerData);
             __s2tQ.push(['storeData' , customerData]);
-            cookies.delCookie(customerDataCookieName);
+            tracking.delCookie(customerDataCookieName);
         }
     });
 
