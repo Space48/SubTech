@@ -10,21 +10,28 @@ class CustomerAddressSaveAfterObserver implements ObserverInterface {
     protected $cookieMetadataFactory;
     protected $addressHelper;
     protected $jsonHelper;
+    protected $sub2Helper;
     const CUSTOMER_DATA_COOKIE_NAME = "customerData";
 
     public function __construct(
         \Magento\Framework\Stdlib\CookieManagerInterface $cookieManager,
         \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory,
         \Space48\SubTech\Helper\Address $addressHelper,
+        \Space48\SubTech\Helper\Data $sub2Helper,
         \Magento\Framework\Json\Helper\Data $jsonHelper
     ) {
         $this->cookieManager = $cookieManager;
         $this->cookieMetadataFactory = $cookieMetadataFactory;
         $this->addressHelper = $addressHelper;
         $this->jsonHelper = $jsonHelper;
+        $this->sub2Helper = $sub2Helper;
     }
 
-    public function execute(\Magento\Framework\Event\Observer $observer) {
+    public function execute(\Magento\Framework\Event\Observer $observer)
+    {
+        if (!$this->isEnabled()) {
+            return false;
+        }
 
         $customerAddress = $observer->getCustomerAddress();
         $customer = $customerAddress->getCustomer();
@@ -43,6 +50,12 @@ class CustomerAddressSaveAfterObserver implements ObserverInterface {
         );
 
         return $this;
+    }
+
+    public function isEnabled()
+    {
+        return $this->sub2Helper->isEnabled()
+            ? true : false;
     }
 
 }

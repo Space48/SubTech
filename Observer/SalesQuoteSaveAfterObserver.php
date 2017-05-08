@@ -13,23 +13,30 @@ class SalesQuoteSaveAfterObserver implements ObserverInterface
     protected $cookieManager;
     protected $cookieMetadataFactory;
     protected $_storeManager;
+    protected $sub2Helper;
     const BASKET_XML_COOKIE_NAME = "basketXml";
 
     public function __construct(
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Framework\Stdlib\CookieManagerInterface $cookieManager,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Space48\SubTech\Helper\Data $sub2Helper,
         \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory
     )
     {
         $this->_storeManager = $storeManager;
         $this->checkoutSession = $checkoutSession;
         $this->cookieManager = $cookieManager;
+        $this->sub2Helper = $sub2Helper;
         $this->cookieMetadataFactory = $cookieMetadataFactory;
     }
 
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
+        if (!$this->isEnabled()) {
+            return false;
+        }
+
         $quote = $observer->getEvent()->getQuote();
         $basketXml = $this->getBasketXml($quote);
 
@@ -43,6 +50,8 @@ class SalesQuoteSaveAfterObserver implements ObserverInterface
             $basketXml,
             $publicCookieMetadata
         );
+
+        return $this;
     }
 
     public function getBasketXml($quote) {
@@ -72,5 +81,11 @@ class SalesQuoteSaveAfterObserver implements ObserverInterface
     public function getCurrentCurrencyCode()
     {
         return $this->_storeManager->getStore()->getCurrentCurrencyCode();
+    }
+
+    public function isEnabled()
+    {
+        return $this->sub2Helper->isEnabled()
+            ? true : false;
     }
 }
