@@ -2,67 +2,73 @@
 
 namespace Space48\SubTech\Block;
 
+use Magento\Catalog\Model\ResourceModel\Category\CollectionFactory as CategoryCollectionFactory;
+use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory as ProductCollectionFactory;
+use Magento\Framework\Json\Helper\Data;
+use Magento\Framework\Registry;
 use Magento\Framework\View\Element\Template;
+use Magento\Framework\View\Element\Template\Context;
+use Magento\Sales\Model\ResourceModel\Order\CollectionFactory as OrderCollectionFactory;
 use Space48\GtmDataLayer\Helper\Data as GtmHelper;
 
-class OrderSuccess extends Template {
+class OrderSuccess extends Template
+{
 
     /**
-     * @var \Magento\Cookie\Helper\Cookie
+     * @var Data
      */
-    protected $cookieHelper;
+    private $jsonHelper;
 
     /**
-     * @var \Magento\Framework\Json\Helper\Data
+     * @var OrderCollectionFactory
      */
-    protected $jsonHelper;
-
-    /**
-     * @var \Magento\Sales\Model\ResourceModel\Order\CollectionFactory
-     */
-    protected $salesOrderCollection;
+    private $salesOrderCollection;
 
     /**
      * Google Tag Manager Helper
      *
      * @var \Space48\GtmDataLayer\Helper\Data
      */
-    protected $gtmHelper = null;
+    private $gtmHelper = null;
 
     /**
-     * @var \Magento\Framework\Registry
+     * @var Registry
      */
-    protected $registry;
+    private $registry;
 
     /**
-     * @var \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory
+     * @var ProductCollectionFactory
      */
-    protected $productCollectionFactory;
+    private $productCollectionFactory;
 
     /**
-     * @var \Magento\Catalog\Model\ResourceModel\Category\CollectionFactory
+     * @var CollectionFactory
      */
-    protected $categoryCollectionFactory;
+    private $categoryCollectionFactory;
+
+    private $defaultCategoryName;
 
     /**
-     * @param \Magento\Framework\View\Element\Template\Context $context
-     * @param \Magento\Cookie\Helper\Cookie $cookieHelper
-     * @param \Magento\Framework\Json\Helper\Data $jsonHelper
-     * @param GtmHelper $gtmHelper
-     * @param array $data
+     * @param Context                   $context
+     * @param OrderCollectionFactory    $salesOrderCollection
+     * @param Data                      $jsonHelper
+     * @param Registry                  $registry
+     * @param ProductCollectionFactory  $productCollectionFactory
+     * @param CategoryCollectionFactory $categoryCollectionFactory
+     * @param GtmHelper                 $gtmHelper
+     * @param array                     $data
+     *
      */
     public function __construct(
-        \Magento\Framework\View\Element\Template\Context $context,
-        \Magento\Sales\Model\ResourceModel\Order\CollectionFactory $salesOrderCollection,
-        \Magento\Cookie\Helper\Cookie $cookieHelper,
-        \Magento\Framework\Json\Helper\Data $jsonHelper,
-        \Magento\Framework\Registry $registry,
-        \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productCollectionFactory,
-        \Magento\Catalog\Model\ResourceModel\Category\CollectionFactory $categoryCollectionFactory,
+        Context $context,
+        OrderCollectionFactory $salesOrderCollection,
+        Data $jsonHelper,
+        Registry $registry,
+        ProductCollectionFactory $productCollectionFactory,
+        CategoryCollectionFactory $categoryCollectionFactory,
         GtmHelper $gtmHelper,
         array $data = []
     ) {
-        $this->cookieHelper = $cookieHelper;
         $this->jsonHelper = $jsonHelper;
         $this->gtmHelper = $gtmHelper;
         $this->registry = $registry;
@@ -77,9 +83,9 @@ class OrderSuccess extends Template {
         );
     }
 
-    protected function _toHtml()
+    public function _toHtml()
     {
-        if (!$this->gtmHelper->isTypeEnabled(array('order_success'))) {
+        if (!$this->gtmHelper->isTypeEnabled(['order_success'])) {
             return '';
         }
 
@@ -99,7 +105,6 @@ class OrderSuccess extends Template {
         $orderCollection->addFieldToFilter('entity_id', ['in' => $orderIds]);
 
         foreach ($orderCollection as $order) {
-
             // Assign order data to array
 
             $shippingAddress = $order->getShippingAddress();
@@ -140,9 +145,8 @@ class OrderSuccess extends Template {
 
             // Assign order items data to array
 
-            /** @var \Magento\Sales\Model\Order\Item $item*/
+            /** @var \Magento\Sales\Model\Order\Item $item */
             foreach ($order->getAllVisibleItems() as $item) {
-
                 $product = [];
                 $productEntity = $this->getProductById($item->getProductId());
 
@@ -158,7 +162,6 @@ class OrderSuccess extends Template {
 
                 $result[] = "__s2tQ.push(['addItem' ," .
                     $this->jsonHelper->jsonEncode(array_filter($product)) . "]);\n";
-
             }
         }
 
@@ -179,18 +182,18 @@ class OrderSuccess extends Template {
         $categories = $product->getCategoryIds();
         $categoryName = null;
 
-        if(!empty($categories)){
+        if (!empty($categories)) {
             $category = $this->getFirstCategory($categories);
             $categoryName = $category->getName();
         }
 
-        return is_null($categoryName) ? $this->defaultCategoryName : $categoryName;
+        return $categoryName == null ? $this->defaultCategoryName : $categoryName;
     }
 
     public function getFirstCategory($categoryIds)
     {
         return $this->categoryCollectionFactory->create()
-            ->addAttributeToFilter('entity_id', array("in" => $categoryIds))
+            ->addAttributeToFilter('entity_id', ["in" => $categoryIds])
             ->addAttributeToFilter('is_active', 1)
             ->addAttributeToSelect('name')
             ->setPageSize(1)

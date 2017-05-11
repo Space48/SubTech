@@ -3,25 +3,27 @@
 namespace Space48\SubTech\Block;
 
 use Magento\Framework\View\Element\Template;
+use Magento\Framework\View\Element\Template\Context;
+use Space48\SubTech\Helper\Data;
 
-class Sub2Library extends Template {
+class Sub2Library extends Template
+{
 
     /**
      * SubTech Helper
      *
-     * @var \Space48\SubTech\Helper\Data
+     * @var Data
      */
-    protected $sub2Helper = null;
+    private $sub2Helper = null;
 
     /**
-     * @param \Magento\Framework\View\Element\Template\Context $context
-     * @param \Magento\Framework\Json\Helper\Data $jsonHelper
-     * @param GtmHelper $gtmHelper
-     * @param array $data
+     * @param Context $context
+     * @param Data    $sub2Helper
+     * @param array   $data
      */
     public function __construct(
-        \Magento\Framework\View\Element\Template\Context $context,
-        \Space48\SubTech\Helper\Data $sub2Helper,
+        Context $context,
+        Data $sub2Helper,
         array $data = []
     ) {
         $this->sub2Helper = $sub2Helper;
@@ -32,18 +34,18 @@ class Sub2Library extends Template {
         );
     }
 
-    public function isEnabled()
-    {
-        return $this->sub2Helper->isEnabled()
-            ? true : false;
-    }
-
-    protected function _toHtml()
+    public function _toHtml()
     {
         if (!$this->isEnabled()) {
             return '';
         }
 
         return $this->sub2Helper->getTrackingCode();
+    }
+
+    public function isEnabled()
+    {
+        return $this->sub2Helper->isEnabled()
+            ? true : false;
     }
 }

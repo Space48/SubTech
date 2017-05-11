@@ -2,18 +2,10 @@
 
 namespace Space48\SubTech\Helper;
 
-class Address extends \Magento\Framework\App\Helper\AbstractHelper {
+use Magento\Framework\App\Helper\AbstractHelper;
 
-    public function getDefaultAddressId($customer)
-    {
-        if ($customer->getDefaultShipping()) {
-            return $customer->getDefaultShipping();
-        } elseif ($customer->getDefaultBilling()) {
-            return $customer->getDefaultBilling();
-        }
-
-        return false;
-    }
+class Address extends AbstractHelper
+{
 
     public function getCustomerAddressData($customer)
     {
@@ -26,7 +18,6 @@ class Address extends \Magento\Framework\App\Helper\AbstractHelper {
         }
 
         foreach ($addresses as $address) {
-
             if ($address->getEntityId() == $defaultAddressId) {
                 return $address->getData();
             }
@@ -35,6 +26,17 @@ class Address extends \Magento\Framework\App\Helper\AbstractHelper {
         }
 
         return $addressDataArray[0];
+    }
+
+    public function getDefaultAddressId($customer)
+    {
+        if ($customer->getDefaultShipping()) {
+            return $customer->getDefaultShipping();
+        } elseif ($customer->getDefaultBilling()) {
+            return $customer->getDefaultBilling();
+        }
+
+        return false;
     }
 
     public function mapCustomerData($data)

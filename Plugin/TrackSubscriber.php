@@ -1,18 +1,26 @@
 <?php
+
 namespace Space48\SubTech\Plugin;
+
+use Magento\Catalog\Model\Session;
+use Magento\Framework\Json\Helper\Data;
+use Magento\Framework\Stdlib\Cookie\CookieMetadataFactory;
+use Magento\Framework\Stdlib\CookieManagerInterface;
+use Magento\Newsletter\Model\Subscriber;
 
 class TrackSubscriber
 {
-    protected $catalogSession;
-    protected $cookieManager;
-    protected $cookieMetadataFactory;
-    protected $jsonHelper;
+
+    private $catalogSession;
+    private $cookieManager;
+    private $cookieMetadataFactory;
+    private $jsonHelper;
 
     public function __construct(
-        \Magento\Catalog\Model\Session $catalogSession,
-        \Magento\Framework\Stdlib\CookieManagerInterface $cookieManager,
-        \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory,
-        \Magento\Framework\Json\Helper\Data $jsonHelper
+        Session $catalogSession,
+        CookieManagerInterface $cookieManager,
+        CookieMetadataFactory $cookieMetadataFactory,
+        Data $jsonHelper
     ) {
         $this->catalogSession = $catalogSession;
         $this->cookieManager = $cookieManager;
@@ -20,12 +28,11 @@ class TrackSubscriber
         $this->jsonHelper = $jsonHelper;
     }
 
-    public function afterSubscribe(\Magento\Newsletter\Model\Subscriber $subscriber)
+    public function afterSubscribe(Subscriber $subscriber)
     {
         $subscriberData = $subscriber->getData();
 
         if ($subscriber->getStatus()) {
-
             $publicCookieMetadata = $this->cookieMetadataFactory->createPublicCookieMetadata()
                 ->setDuration(3600)
                 ->setPath('/')
@@ -35,7 +42,8 @@ class TrackSubscriber
                 'Email' => $subscriberData['subscriber_email']
             ];
 
-            $this->cookieManager->setPublicCookie("subscriberEmail",
+            $this->cookieManager->setPublicCookie(
+                "subscriberEmail",
                 $this->jsonHelper->jsonEncode($mappedData),
                 $publicCookieMetadata
             );

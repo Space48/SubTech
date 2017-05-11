@@ -5,23 +5,29 @@
  */
 namespace Space48\SubTech\Observer;
 
+use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
+use Magento\Framework\Json\Helper\Data as JsonHelper;
+use Magento\Framework\Stdlib\Cookie\CookieMetadataFactory;
+use Magento\Framework\Stdlib\CookieManagerInterface;
+use Space48\SubTech\Helper\Address;
+use Space48\SubTech\Helper\Data;
 
 class CustomerRegisterSuccessObserver implements ObserverInterface
 {
-    protected $cookieManager;
-    protected $cookieMetadataFactory;
-    protected $addressHelper;
-    protected $jsonHelper;
-    protected $sub2Helper;
+    private $cookieManager;
+    private $cookieMetadataFactory;
+    private $addressHelper;
+    private $jsonHelper;
+    private $sub2Helper;
     const CUSTOMER_DATA_COOKIE_NAME = "customerData";
 
     public function __construct(
-        \Magento\Framework\Stdlib\CookieManagerInterface $cookieManager,
-        \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory,
-        \Space48\SubTech\Helper\Address $addressHelper,
-        \Space48\SubTech\Helper\Data $sub2Helper,
-        \Magento\Framework\Json\Helper\Data $jsonHelper
+        CookieManagerInterface $cookieManager,
+        CookieMetadataFactory $cookieMetadataFactory,
+        Address $addressHelper,
+        Data $sub2Helper,
+        JsonHelper $jsonHelper
     ) {
         $this->cookieManager = $cookieManager;
         $this->cookieMetadataFactory = $cookieMetadataFactory;
@@ -30,7 +36,7 @@ class CustomerRegisterSuccessObserver implements ObserverInterface
         $this->jsonHelper = $jsonHelper;
     }
 
-    public function execute(\Magento\Framework\Event\Observer $observer)
+    public function execute(Observer $observer)
     {
         if (!$this->isEnabled()) {
             return false;
@@ -57,7 +63,7 @@ class CustomerRegisterSuccessObserver implements ObserverInterface
         return $this;
     }
 
-    public function isEnabled()
+    private function isEnabled()
     {
         return $this->sub2Helper->isEnabled()
             ? true : false;
