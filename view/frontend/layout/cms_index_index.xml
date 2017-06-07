@@ -2,7 +2,7 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceContainer name="top.container">
-            <block class="Magento\Cms\Block\Block" name="space48_sub2tech_banner_cms">
+            <block ifconfig="s48_sub2tech/settings/active" class="Magento\Cms\Block\Block" name="space48_sub2tech_banner_cms">
                 <arguments>
                     <argument name="block_id" xsi:type="string">sub2tech-banner</argument>
                 </arguments>
