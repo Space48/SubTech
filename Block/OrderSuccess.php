@@ -42,7 +42,7 @@ class OrderSuccess extends Template
     private $productCollectionFactory;
 
     /**
-     * @var CollectionFactory
+     * @var OrderCollectionFactory
      */
     private $categoryCollectionFactory;
 
@@ -83,6 +83,11 @@ class OrderSuccess extends Template
         );
     }
 
+    /**
+     * Render block HTML
+     *
+     * @return string
+     */
     public function _toHtml()
     {
         if (!$this->gtmHelper->isTypeEnabled(['order_success'])) {
@@ -92,7 +97,10 @@ class OrderSuccess extends Template
         return $this->getOutput();
     }
 
-    public function getOutput()
+    /**
+     * @return string
+     */
+    private function getOutput()
     {
         $result = [];
         $orderIds = $this->registry->registry('orderIds');
@@ -148,6 +156,7 @@ class OrderSuccess extends Template
             /** @var \Magento\Sales\Model\Order\Item $item */
             foreach ($order->getAllVisibleItems() as $item) {
                 $product = [];
+
                 $productEntity = $this->getProductById($item->getProductId());
 
                 $product['OrderID'] = $order['increment_id'];
@@ -168,7 +177,12 @@ class OrderSuccess extends Template
         return implode("\n", $result);
     }
 
-    public function getProductById($productId)
+    /**
+     * @param $productId
+     *
+     * @return \Magento\Framework\DataObject | \Magento\Catalog\Model\Product
+     */
+    private function getProductById($productId)
     {
         return $this->productCollectionFactory->create()
             ->addAttributeToFilter('entity_id', $productId)
@@ -177,12 +191,18 @@ class OrderSuccess extends Template
             ->getFirstItem();
     }
 
-    public function getCategoryName($product)
+    /**
+     * @param $product \Magento\Catalog\Model\Product
+     *
+     * @return mixed|null
+     */
+    private function getCategoryName($product)
     {
         $categories = $product->getCategoryIds();
         $categoryName = null;
 
         if (!empty($categories)) {
+            /** @var \Magento\Catalog\Model\Category $category */
             $category = $this->getFirstCategory($categories);
             $categoryName = $category->getName();
         }
@@ -190,7 +210,12 @@ class OrderSuccess extends Template
         return $categoryName == null ? $this->defaultCategoryName : $categoryName;
     }
 
-    public function getFirstCategory($categoryIds)
+    /**
+     * @param $categoryIds
+     *
+     * @return \Magento\Framework\DataObject | \Magento\Catalog\Model\Category
+     */
+    private function getFirstCategory($categoryIds)
     {
         return $this->categoryCollectionFactory->create()
             ->addAttributeToFilter('entity_id', ["in" => $categoryIds])

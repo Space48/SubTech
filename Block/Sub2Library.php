@@ -34,6 +34,11 @@ class Sub2Library extends Template
         );
     }
 
+    /**
+     * Render block HTML
+     *
+     * @return string
+     */
     public function _toHtml()
     {
         if (!$this->isEnabled()) {
@@ -43,7 +48,10 @@ class Sub2Library extends Template
         return $this->sub2Helper->getTrackingCode();
     }
 
-    public function isEnabled()
+    /**
+     * @return bool
+     */
+    private function isEnabled()
     {
         return $this->sub2Helper->isEnabled()
             ? true : false;

@@ -22,6 +22,14 @@ class SalesQuoteSaveAfterObserver implements ObserverInterface
     private $storeManager;
     private $sub2Helper;
 
+    /**
+     * SalesQuoteSaveAfterObserver constructor.
+     *
+     * @param CookieManagerInterface $cookieManager
+     * @param StoreManagerInterface  $storeManager
+     * @param Data                   $sub2Helper
+     * @param CookieMetadataFactory  $cookieMetadataFactory
+     */
     public function __construct(
         CookieManagerInterface $cookieManager,
         StoreManagerInterface $storeManager,
@@ -34,6 +42,11 @@ class SalesQuoteSaveAfterObserver implements ObserverInterface
         $this->cookieMetadataFactory = $cookieMetadataFactory;
     }
 
+    /**
+     * @param Observer $observer
+     *
+     * @return $this|bool
+     */
     public function execute(Observer $observer)
     {
         if (!$this->isEnabled()) {
@@ -57,12 +70,20 @@ class SalesQuoteSaveAfterObserver implements ObserverInterface
         return $this;
     }
 
+    /**
+     * @return bool
+     */
     private function isEnabled()
     {
         return $this->sub2Helper->isEnabled()
             ? true : false;
     }
 
+    /**
+     * @param $quote
+     *
+     * @return string
+     */
     private function getBasketXml($quote)
     {
         $items = $quote->getAllVisibleItems();
@@ -85,6 +106,9 @@ class SalesQuoteSaveAfterObserver implements ObserverInterface
         return $xml;
     }
 
+    /**
+     * @return mixed
+     */
     private function getCurrentCurrencyCode()
     {
         return $this->storeManager->getStore()->getCurrentCurrencyCode();

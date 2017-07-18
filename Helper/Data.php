@@ -4,7 +4,6 @@ namespace Space48\SubTech\Helper;
 
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\App\Helper\Context;
-use Magento\Framework\ObjectManagerInterface;
 use Magento\Store\Model\ScopeInterface;
 
 class Data extends AbstractHelper
@@ -13,22 +12,17 @@ class Data extends AbstractHelper
     const XML_PATH = 's48_sub2tech/settings/';
 
     /**
-     * @var ObjectManagerInterface
-     */
-    private $objectManager;
-
-    /**
      * @param Context $context
-     * @param \Magento\Framework\ObjectManagerInterface
      */
     public function __construct(
-        Context $context,
-        ObjectManagerInterface $objectManager
+        Context $context
     ) {
-        $this->objectManager = $objectManager;
         parent::__construct($context);
     }
 
+    /**
+     * @return bool
+     */
     public function isEnabled()
     {
 
@@ -41,11 +35,19 @@ class Data extends AbstractHelper
         return false;
     }
 
-    public function getConfig($field)
+    /**
+     * @param $field
+     *
+     * @return mixed
+     */
+    protected function getConfig($field)
     {
         return $this->scopeConfig->getValue(self::XML_PATH . $field, ScopeInterface::SCOPE_STORE);
     }
 
+    /**
+     * @return string
+     */
     public function getTrackingCode()
     {
         return 'document.write(unescape("%3Cscript src=\'" 
@@ -55,7 +57,10 @@ class Data extends AbstractHelper
     var __s2tQ = __s2tQ || [];' . "\n";
     }
 
-    public function getLicenceKey()
+    /**
+     * @return mixed
+     */
+    protected function getLicenceKey()
     {
         return $this->getConfig('licence_key');
     }
