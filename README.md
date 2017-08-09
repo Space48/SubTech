@@ -1,4 +1,7 @@
 # Sub2Tech
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Space48/SubTech/badges/quality-score.png?b=master&s=6224692d0afa0464aad9672ffe48e8b94c9dd0e0)](https://scrutinizer-ci.com/g/Space48/SubTech/?branch=master)
+[![Build Status](https://scrutinizer-ci.com/g/Space48/SubTech/badges/build.png?b=master&s=eec15aaa403ebaaa6fa18e189f303ba8933985ec)](https://scrutinizer-ci.com/g/Space48/SubTech/build-status/master)
+[![Code Coverage](https://scrutinizer-ci.com/g/Space48/SubTech/badges/coverage.png?b=master&s=f7cfd44ebf434797310200bb30ad18d7794b79dc)](https://scrutinizer-ci.com/g/Space48/SubTech/?branch=master)
 
 This module will send various data to the Sub2Tech system via Javascript calls that are invoked on every page load. This includes the following:
 
