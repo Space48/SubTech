@@ -16,11 +16,15 @@
         "proprietary"
     ],
       "repositories": {
-    "magento": {
-      "type": "composer",
-      "url": "https://repo.magento.com/"
-    }
-  },
+        "magento": {
+            "type": "composer",
+            "url": "https://repo.magento.com/"
+        },
+        "space48-gtm-datalayer": {
+            "type": "vcs",
+            "url": "git@github.com:Space48/GtmDataLayer.git"
+        }
+    },
     "autoload": {
         "files": [
             "registration.php"
